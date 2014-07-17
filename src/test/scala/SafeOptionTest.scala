@@ -56,9 +56,18 @@ class SafeOptionTest extends FlatSpec with Matchers {
 		}
 	}*/
 
-	/*"map" should "return correct type" in {
+	"map" should "return correct type" in {
 		val x: SafeOption[String] = someUppercaseString.map(_.toLowerCase)
-	}*/
+	}
+
+	"map" should "return modified value for SafeSome" in {
+		someUppercaseString.map(_.toLowerCase) should be (someString)
+	}
+
+	"map" should "return Safenone for SafeNone" in {
+		SafeNone.map(_.toLowerCase) should be (SafeNone)
+	}
+
 
 	"SafeNone" should "be well pattern matched" in {
 		val goodMatch = SafeNone match {
