@@ -65,7 +65,7 @@ class SafeOptionTest extends FlatSpec with Matchers {
 	}
 
 	"map" should "return Safenone for SafeNone" in {
-		SafeNone.map(_.toLowerCase) should be (SafeNone)
+		SafeNone.map((_: String).toLowerCase) should be (SafeNone)
 	}
 
 
