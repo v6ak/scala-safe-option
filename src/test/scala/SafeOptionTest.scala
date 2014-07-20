@@ -68,6 +68,14 @@ class SafeOptionTest extends FlatSpec with Matchers {
 		SafeNone[String].map(_.toLowerCase) should be (SafeNone[Object])
 	}
 
+	"filter" should "not be relevant for SafeNone" in {
+		SafeNone[String].map(_ => fail()) should be (SafeNone[String])
+	}
+
+	"filter" should "be relevant for SafeSome" in {
+		someString.filter(_(0).isUpper) should be (SafeNone[String])
+		someUppercaseString.filter(_(0).isUpper) should be (someUppercaseString)
+	}
 
 	"SafeNone" should "be well pattern matched" in {
 		val goodMatch = SafeNone[String] match {

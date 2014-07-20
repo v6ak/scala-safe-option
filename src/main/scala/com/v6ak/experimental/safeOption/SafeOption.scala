@@ -35,9 +35,9 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 
 	def fold[U](ifEmpty: => U)(f: T => U): U = if(isDefined) f(valueOrNull) else ifEmpty
 
-	/*def filter(f: T => Boolean): SafeOption[T] =
+	def filter(f: T => Boolean): SafeOption[T] =
 		if(isDefined && f(get)) this
-		else SafeNone*/
+		else SafeNone[T]
 
 	def get = fold(throw new NoSuchElementException)(identity)
 
