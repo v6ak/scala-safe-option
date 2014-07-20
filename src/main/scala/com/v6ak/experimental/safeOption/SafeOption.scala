@@ -15,15 +15,10 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 
 	def isEmpty: Boolean = !isDefined
 
-	override def toString: String =
-		if(isDefined) s"SafeSome($valueOrNull)"
-		else "SafeNone"
+	override def toString: String = fold("SafeNone")(x => s"SafeSome($x)")
 
 	def map[U <: AnyRef](f: T=>U): SafeOption[U] = {
-		//val x: SafeOption[Int] = SafeNone
 		fold[SafeOption[U]](SafeNone[U])(v => new SafeOption[U](f(v)))
-		/*if(isDefined) new SafeOption[U](f(valueOrNull))
-		else SafeNone.asInstanceOf[SafeOption[U]]*/
 	}	// TODO: possibly handle null values*/
 
 	def fold[U](ifEmpty: => U)(f: T => U): U = if(isDefined) f(valueOrNull) else ifEmpty
