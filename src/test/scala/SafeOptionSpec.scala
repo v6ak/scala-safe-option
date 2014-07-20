@@ -86,6 +86,18 @@ class SafeOptionSpec extends FlatSpec with Matchers {
 		someUppercaseString.filter(_(0).isUpper) should be (someUppercaseString)
 	}
 
+	"flatMap" should "not be relevant for SafeNone" in {
+		SafeNone[String].flatMap(_ => fail()) should be (SafeNone[String])
+	}
+
+	"flatMap" should "return SafeNone for function returning SafeNone" in {
+		someString.flatMap(_ => SafeNone[String]) should be (SafeNone[String])
+	}
+
+	"flatMap" should "return SafeSome for function returning SafeSome" in {
+		someString.flatMap(x => SafeSome(x.toSeq)) should be (SafeSome(Seq('h', 'e', 'l', 'l', 'o')))
+	}
+
 	"SafeNone" should "be well pattern matched" in {
 		val goodMatch = SafeNone[String] match {
 			case SafeSome(x) => false

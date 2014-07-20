@@ -32,6 +32,8 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 		if(isDefined && f(get)) this
 		else SafeNone[T]
 
+	def flatMap[U <: AnyRef](f: T => SafeOption[U]) = fold(SafeNone[U])(f)
+
 	def get = fold(throw new NoSuchElementException)(identity)
 
 	def getOrNull = valueOrNull
