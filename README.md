@@ -7,7 +7,7 @@ I've tried to overcome these drawbacks by this experiment.
 
 However, some other limitations have appeared.
 
-First, `SafeNone` is not `SafeOption[Nothing]`, but `SafeOption[Null]`. Together with some Scala type-system limitations, this makes hard to write methods like `map`. It seems to be impossible without ugly typecasts.
+First, `SafeNone` is not `SafeOption[Nothing]`. It has a generic function that creates instance for any T. That is better than having ugly hack `SafeOption[Null]`, but it makes ugly pattern matching. (I.e. using `SafeNone()` instead of `SafeNone`.)
 
 Second, only `AnyRef`s are supported. This is a design limitation.
 
