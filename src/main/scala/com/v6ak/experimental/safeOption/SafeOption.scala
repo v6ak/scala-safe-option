@@ -22,11 +22,13 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 
 	override def toString: String =
 		if(isDefined) s"SafeSome($valueOrNull)"
+
+
 		else "SafeNone"
 
 	def map[U <: AnyRef](f: T=>U): SafeOption[U] = {
 		//val x: SafeOption[Int] = SafeNone
-		fold[SafeOption[U]](SafeNone.asInstanceOf[SafeOption[U]])(v => new SafeOption[U](f(v)))
+		fold[SafeOption[U]](SafeNone[U])(v => new SafeOption[U](f(v)))
 		/*if(isDefined) new SafeOption[U](f(valueOrNull))
 		else SafeNone.asInstanceOf[SafeOption[U]]*/
 	}	// TODO: possibly handle null values*/
@@ -59,6 +61,9 @@ object SafeSome{
 
 object `package` {
 
-	val SafeNone = new SafeOption[Null](null)//.asInstanceOf[SafeOption[Nothing]] <-- This ugly hack makes it even more broken
+	object SafeNone {
+		def unapply(v: SafeOption[_]) = v == SafeNone[AnyRef]
+		def apply[T <: AnyRef] = new SafeOption[Null](null).asInstanceOf[SafeOption[T]]
+	}
 
 }

@@ -14,12 +14,12 @@ class SafeOptionTest extends FlatSpec with Matchers {
 	}
 
 	"SafeOption" should "accept null" in {
-		SafeOption(null) should be (SafeNone)
+		SafeOption(null) should be (SafeNone[String])
 	}
 
 	"SafeNone" should "be empty" in {
-		SafeNone.isEmpty should be (true)
-		SafeNone.isDefined should be (false)
+		SafeNone[AnyRef].isEmpty should be (true)
+		SafeNone[AnyRef].isDefined should be (false)
 	}
 
 	"SafeSome" should "be defined" in {
@@ -34,20 +34,20 @@ class SafeOptionTest extends FlatSpec with Matchers {
 
 	"SafeNone" should "not give the value" in {
 		a [NoSuchElementException] should be thrownBy {
-			SafeNone.get
+			SafeNone[String].get
 		}
 	}
 
 	"SafeNone" should "have a hashCode value" in {
-		(SafeNone: Any).## should be (0)
+		(SafeNone[String]: Any).## should be (0)
 		SafeNone.## should be (0)
-		(SafeNone: Any).hashCode should be (0)
+		(SafeNone[String]: Any).hashCode should be (0)
 		SafeNone.hashCode should be (0)
 	}
 
 	"SafeNone" should "be assignable to other SafeOptions" in {
-		val a: SafeOption[String] = SafeNone
-		val b: SafeOption[Object] = SafeNone
+		val a: SafeOption[String] = SafeNone[String]
+		val b: SafeOption[Object] = SafeNone[Object]
 	}
 
 	/*"SafeNone" should "be assignable to other SafeOptions even in a generic method" in {
@@ -65,21 +65,21 @@ class SafeOptionTest extends FlatSpec with Matchers {
 	}
 
 	"map" should "return Safenone for SafeNone" in {
-		SafeNone.map((_: String).toLowerCase) should be (SafeNone)
+		SafeNone[String].map(_.toLowerCase) should be (SafeNone[Object])
 	}
 
 
 	"SafeNone" should "be well pattern matched" in {
-		val goodMatch = SafeNone match {
+		val goodMatch = SafeNone[String] match {
 			case SafeSome(x) => false
-			case SafeNone => true
+			case SafeNone() => true
 		}
 		goodMatch should be (true)
 	}
 
 	"SafeSome" should "be well pattern matched" in {
 		val goodMatch = someString match {
-			case SafeNone => false
+			case SafeNone() => false
 			case SafeSome(x) if x == "hello" => true
 		}
 		goodMatch should be (true)
