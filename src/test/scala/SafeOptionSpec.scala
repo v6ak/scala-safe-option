@@ -1,3 +1,4 @@
+import com.v6ak.experimental.safeOption
 import com.v6ak.experimental.safeOption.{SafeOption, SafeSome, SafeNone}
 import org.scalatest._
 
@@ -85,6 +86,17 @@ class SafeOptionSpec extends FlatSpec with Matchers {
 		someString.filter(_(0).isUpper) should be (SafeNone[String])
 		someUppercaseString.filter(_(0).isUpper) should be (someUppercaseString)
 	}
+
+	type NestedStringOption = SafeOption[SafeOption[String]]
+
+	"flatten" should "do nothing to SafeNone" in {
+		(SafeNone[SafeOption[String]]: NestedStringOption).flatten should be (SafeNone[AnyRef])
+	}
+
+	"flatten" should "do nothing to SafeSome(SafeNone)" in {
+		(SafeSome(SafeNone[String].asInstanceOf[AnyRef].asInstanceOf[SafeOption[String]]): NestedStringOption).flatten should be (SafeNone[AnyRef])
+	}
+
 
 	"SafeNone" should "be well pattern matched" in {
 		val goodMatch = SafeNone[String] match {

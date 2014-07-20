@@ -36,6 +36,9 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 
 	def getOrNull = valueOrNull
 
+	def flatten[U <: AnyRef](implicit ev: T <:< SafeOption[U]): SafeOption[U] =
+		fold[SafeOption[U]](SafeNone[U])(x => x)
+
 	// FIXME: there is hashCode bug in Scala that I can't fix there
 
 }
