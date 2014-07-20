@@ -73,8 +73,12 @@ class SafeOptionSpec extends FlatSpec with Matchers {
 		someUppercaseString.map(_.toLowerCase) should be (someString)
 	}
 
-	"map" should "return Safenone for SafeNone" in {
+	"map" should "return SafeNone for SafeNone" in {
 		SafeNone[String].map(_.toLowerCase) should be (SafeNone[Object])
+	}
+
+	"map" should "be irelevant for SafeNone" in {
+		SafeNone[String].map(_ => fail()) should be (SafeNone[Object])
 	}
 
 	"filter" should "not be relevant for SafeNone" in {
