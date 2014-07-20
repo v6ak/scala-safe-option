@@ -1,7 +1,7 @@
 import com.v6ak.experimental.safeOption.{SafeOption, SafeSome, SafeNone}
 import org.scalatest._
 
-class SafeOptionTest extends FlatSpec with Matchers {
+class SafeOptionSpec extends FlatSpec with Matchers {
 
 	val someString = SafeSome("hello")
 

@@ -50,20 +50,3 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 object SafeOption{
 	def apply[T <: AnyRef](x: T) = new SafeOption(x)
 }
-
-object SafeSome{
-	def apply[T <: AnyRef](x: T) = x match {
-		case null => throw new NullPointerException
-		case value => SafeOption(value)
-	}
-	def unapply[T <: AnyRef](option: SafeOption[T]): Option[T] = option.fold[Option[T]](None)(Some(_))
-}
-
-object `package` {
-
-	object SafeNone {
-		def unapply(v: SafeOption[_]) = v == SafeNone[AnyRef]
-		def apply[T <: AnyRef] = new SafeOption[Null](null).asInstanceOf[SafeOption[T]]
-	}
-
-}
