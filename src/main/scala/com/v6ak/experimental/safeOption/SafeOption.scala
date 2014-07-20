@@ -17,8 +17,6 @@ class SafeOption[+T <: AnyRef](val valueOrNull: T) extends AnyVal{
 
 	override def toString: String =
 		if(isDefined) s"SafeSome($valueOrNull)"
-
-
 		else "SafeNone"
 
 	def map[U <: AnyRef](f: T=>U): SafeOption[U] = {
