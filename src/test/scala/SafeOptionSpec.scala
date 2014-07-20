@@ -38,11 +38,26 @@ class SafeOptionSpec extends FlatSpec with Matchers {
 		}
 	}
 
-	"SafeNone" should "have a hashCode value" in {
+	"SafeNone" should "have a hashCode value # This test is known to be failing" in {
 		(SafeNone[String]: Any).## should be (0)
 		SafeNone.## should be (0)
 		(SafeNone[String]: Any).hashCode should be (0)
 		SafeNone.hashCode should be (0)
+	}
+
+	"SafeNone" should "support Nothing type # This test is known to be failing" in {
+		val x: SafeOption[String] = SafeNone[Nothing]
+		val y = SafeNone[Nothing]
+		a [NoSuchElementException] should be thrownBy{
+			x.get
+		}
+		a [NoSuchElementException] should be thrownBy{
+			y.get
+		}
+		a [NoSuchElementException] should be thrownBy{
+			SafeNone[Nothing].get
+		}
+
 	}
 
 	"SafeNone" should "be assignable to other SafeOptions" in {
