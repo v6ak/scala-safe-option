@@ -50,11 +50,20 @@ class SafeOptionTest extends FlatSpec with Matchers {
 		val b: SafeOption[Object] = SafeNone[Object]
 	}
 
-	/*"SafeNone" should "be assignable to other SafeOptions even in a generic method" in {
+	"SafeNone" should "be equal to other SafeNone-s regardless of the underlying type" in {
+		SafeNone[String] should be (SafeNone[List[Int]])
+		SafeNone[List[Int]] should be (SafeNone[String])
+		SafeNone[java.lang.Integer] should be (SafeNone[String])
+		SafeNone[String] should be (SafeNone[java.lang.Integer])
+		SafeNone[String] should be (SafeNone[java.lang.Object])
+		SafeNone[java.lang.Object] should be (SafeNone[String])
+	}
+
+	"SafeNone" should "be assignable to other SafeOptions even in a generic method" in {
 		def f[T <: AnyRef](x: T) {
-			val a: SafeOption[T] = SafeNone
+			val a: SafeOption[T] = SafeNone[T]
 		}
-	}*/
+	}
 
 	"map" should "return correct type" in {
 		val x: SafeOption[String] = someUppercaseString.map(_.toLowerCase)
