@@ -5,12 +5,7 @@ package com.v6ak.experimental.safeOption
  * That means, only SafeNone and SafeSome(someValue) are allowed. In [[scala.Option]], null, None,
  * Some(null) and Some(someValue) are allowed.
  *
- * This is very experimental!!! There are some drawbacks.
- *
- * First, its hashCode implementation is broken for SafeNone. This is a Scala bug. See https://issues.scala-lang.org/browse/SI-7401 and https://issues.scala-lang.org/browse/SI-7396
- * Second, only AnyRefs are supported.
- * Third, the code is a bit hacky at the moment. I use SafeOption[Null] instead of SafeOption[Nothing], which is a hack I don't like and does not work well.
- * Fourth, there are some important methods (e.g. map) missing. I was not able to implement some of them.
+ * This is very experimental!!! There are some drawbacks. See README.md for more details.
  * @param valueOrNull
  * @tparam T
  */
